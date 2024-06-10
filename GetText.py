@@ -17,6 +17,14 @@ def draw_bounding_boxes(image, detections, threshold=0.25):
             cv2.putText(image, text, tuple(map(int, bbox[0])), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.3, (255, 0, 0), 2)
 
 
+def group_detections(detections, threshold=10):
+    # Define a function to calculate the distance between two detections
+    def distance(bbox1, bbox2):
+        x1, y1, w1, h1 = bbox1
+        x2, y2, w2, h2 = bbox2
+        return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+
+    # Use DBSCAN clustering algorithm to group the detections
 
 # directory of images
 directory = "EasyOCRSandbox/EasyOCRSandboxOutput/OCRInput"
