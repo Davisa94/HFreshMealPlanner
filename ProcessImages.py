@@ -11,6 +11,9 @@ def rotate_JPEG2(image):
     rotated_image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
     return rotated_image
 
+def grey_scale(image):
+    return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
 def process_pdf(pdf_path, output_dir):
     os.makedirs(output_dir, exist_ok=True)
     images = convert_from_path(pdf_path)
@@ -22,6 +25,10 @@ def process_pdf(pdf_path, output_dir):
         save_image(image, f"{output_dir}/page{i}.jpg")
         rotated_image = rotate_JPEG2(image)
         save_image(rotated_image, f"{output_dir}/page{i}_rotated.jpg")
+        grey_scaled_image = grey_scale(rotated_image)
+        save_image(grey_scaled_image, f"{output_dir}/page{i}_grey.jpg")
+
+    print("PDF processing complete!")
 
 # test PDF path
 pdf_path = "EasyOCRSandbox/test.pdf"
