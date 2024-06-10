@@ -20,6 +20,15 @@ def rotate_JPEG(image):
     rotated = cv2.warpAffine(image, M, (w, h))
     return rotated
 
+def rotate_JPEG2(image):
+    image = np.array(image)
+    rotated_image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+    return rotated_image
+
+# function to save a given image to a given path
+def save_image(image, path):
+    cv2.imwrite(path, image)
+
 # test image path
 testPDFPath = "EasyOCRSandbox/test.pdf"
 
@@ -34,26 +43,30 @@ images = convert_from_path(testPDFPath)
 
 # rotate the JPEG image 90 degrees counter-clockwise
 for i, image in enumerate(images):
-    images[i] = rotate_JPEG(image)
+    images[i] = rotate_JPEG2(image)
     # save the images
-    image.save(f"EasyOCRSandbox/EasyOCRSandboxOutput/page{i}.jpg", "JPEG")
+    save_image(images[i], f"EasyOCRSandbox/EasyOCRSandboxOutput/page{i}.jpg")
+    # image = np.array(image)
+    # cv2.imwrite(f"EasyOCRSandbox/EasyOCRSandboxOutput/page{i}.jpg", image)
+
+    # image.save(f"EasyOCRSandbox/EasyOCRSandboxOutput/page{i}.jpg", "JPEG")
 
 # Check if a GPU is available
 
-# Read the images and apply OCR
-reader = easyocr.Reader(['en'], gpu=True)
-output = []
-for i in range(len(images)):
-    image = cv2.imread(f"EasyOCRSandbox/EasyOCRSandboxOutput/page{i}.jpg")
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-    cv2.imwrite(f"EasyOCRSandbox/EasyOCRSandboxOutput/thresh{i}.jpg", thresh)
-    output.extend(reader.readtext(f"EasyOCRSandbox/EasyOCRSandboxOutput/thresh{i}.jpg"))
+# # Read the images and apply OCR
+# reader = easyocr.Reader(['en'], gpu=True)
+# output = []
+# for i in range(len(images)):
+#     image = cv2.imread(f"EasyOCRSandbox/EasyOCRSandboxOutput/page{i}.jpg")
+#     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+#     thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+#     cv2.imwrite(f"EasyOCRSandbox/EasyOCRSandboxOutput/thresh{i}.jpg", thresh)
+#     output.extend(reader.readtext(f"EasyOCRSandbox/EasyOCRSandboxOutput/thresh{i}.jpg"))
 
-# Print the output
-print(output)
+# # Print the output
+# print(output)
 
-# Save the output
-with open("EasyOCRSandbox/EasyOCRSandboxOutput/output.txt", "w") as f:
-    for line in output:
-        f.write(line[1] + "\n")
+# # Save the output
+# with open("EasyOCRSandbox/EasyOCRSandboxOutput/output.txt", "w") as f:
+#     for line in output:
+#         f.write(line[1] + "\n")
