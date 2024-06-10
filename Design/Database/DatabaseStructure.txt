@@ -6,32 +6,42 @@ Recipe:
     - cook time
     - Calorie Estimate
 
-Tags: (auto generated using AI ideally):
-    - tag
+Tag:
+    - tag_id
+    - tag_name
     - description
 
+Recipe_tags:
+    - tag_id
+    - recipe_id
 
 Ingredient:
     - Ingredient_id
     - name
+    - description (optional)
 
 Recipe_Ingredients:
     - Recipe_Id
     - Ingredient_id
-    - amount_2
+    - amount_2 
     - amount_4
     - unit (i.e tbsp, oz, pinch, whole(vegetable, fruit, egg..., ))
 
-step:
+Step:
     - step_id
     - description (i.e Wash, cut, peel, preheat, Boil Spaghetti with salt, and oil),
 
+Cookware_table
+    - cookware_id
+    - name
+    - status (optional, do you have it for example,)
+
 Recipe_Step table: (each step can have multiple ingredients)
     - step_id
-       - ingredient_id
-       - appliance_id
-       - cookware_id
-       - utensil_id
+    - ingredient_id
+    - appliance_id
+    - cookware_id
+    - utensil_id
 
 Appliance
     - appliance_id
