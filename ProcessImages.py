@@ -15,7 +15,7 @@ def process_pdf(pdf_path, output_dir):
     os.makedirs(output_dir, exist_ok=True)
     images = convert_from_path(pdf_path)
     # convert images from PIL to OpenCV format
-    images = [np.array(image) for image in images]
+    images = [cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR) for image in images]
 
     # rotate and save images
     for i, image in enumerate(images):
