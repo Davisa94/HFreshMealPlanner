@@ -4,6 +4,26 @@ import os
 import numpy as np
 from pdf2image import convert_from_path
 
+
+
+def generate_text_areas(input_pdf_path):
+    images = convert_from_path(input_pdf_path)
+
+    for i, image in enumerate(images):
+        images[i] = rotate_JPEG2(image)
+    
+    reader = easyocr.Reader(['en'], gpu=True)
+
+    for i, image in enumerate(images):
+        image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+        cv2.imwrite(f"EasyOCRSandbox/EasyOCRSandboxOutput/thresh{i}.jpg", thresh)
+        output = reader.readtext(f"EasyOCRSandbox/EasyOCRSandboxOutput/thresh{i}.jpg")
+    print(output)
+
+
+
 def rotate_JPEG(image):
     image = np.array(image)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
