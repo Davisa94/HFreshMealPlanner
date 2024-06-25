@@ -5,6 +5,22 @@ import numpy as np
 from pdf2image import convert_from_path
 from RecipeCard import RecipeCard
 
+def find_boxes(image):
+    # use pytesseract to extract text from the image
+    text = pytesseract.image_to_string(image)
+
+    # use easyocr to extract text from the image
+    result = reader.readtext(image)
+
+    # use cv2 to process the image
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    _, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+
+    # use contourArea to find and extract boxes in the image
+    contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    boxes = [cv2.boundingRect(cnt) for cnt in contours]
+
+    return boxes
 
 
 def generate_text_areas(input_pdf_path):

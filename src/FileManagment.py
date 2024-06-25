@@ -1,6 +1,7 @@
 # A module with all the functionality to open files
 # and save files
 
+import json
 import os
 import PyPDF2
 from PIL import Image
@@ -31,3 +32,15 @@ def rotate_PDF(path, newpath):
     with open(newpath, 'wb') as f:
         writer.write(f)
     
+
+# takes in a JSON and a filename path and saves it to the given path
+def save_JSON(JSON, filename):
+    with open(f"{filename}.json", 'w') as f:
+        json.dump(JSON, f)
+
+# takes in a filename and opens it returning the contents of the file in json format
+def open_JSON(filename):
+    with open(f"{filename}.json", 'r') as f:
+        return json.load(f)
+
+        

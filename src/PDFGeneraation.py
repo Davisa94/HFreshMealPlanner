@@ -6,9 +6,20 @@ from pdf2image import convert_from_path
 import torch
 import fitz
 import pymupdf
+import nltk
+from nltk.corpus import wordnet
 
+def is_verb(word):
+    # Check if the word is in WordNet
+    if wordnet.synsets(word):
+        # Get the first synset of the word
+        synset = wordnet.synsets(word)[0]
+        # Check if the word is a verb
+        if synset.pos() == 'v':
+            return True
+    return False
 
-
+# a function that determines if we are reading a step. 
 # Given an array of bounding boxes with text, create a PDF with text at those areas.
 def create_pdf(detections, output_dir="EasyOCRSandbox/EasyOCRSandboxOutput"):
 

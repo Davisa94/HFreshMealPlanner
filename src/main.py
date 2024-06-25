@@ -52,7 +52,11 @@ def main():
         rotate_PDF(file, recipe_cards[i].get_new_path())
         # save the pdf in the output directory
         # recipe_cards[i].save_pdf()
+        # serialize the recipe card
+        card_data = serialize_card(recipe_cards[i])
+        save_JSON(card_data, recipe_cards[i].get_new_path())
 
+    print("Done!")
 
 
 if __name__ == "__main__":
